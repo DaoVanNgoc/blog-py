@@ -1,0 +1,16 @@
+{% extends "pages/base.html" %}
+{% block title %}
+Blog
+{% endblock %}
+{% block content %}
+{% for person in Persons %}
+
+    <h5>{{person.date|date:"d-m-Y"}} <a href="{% url 'person' person.id %}">{{person.name}}</a></h5>
+    <img src="{{person.image.url}}" width="450px"/>
+
+{% endfor %}
+<br/>
+{% if page_obj.has_next %}
+    <a href="{{request.path}}?page={{page_obj.next_page_number}}">Next</a>
+{% endif %}
+{% endblock %}

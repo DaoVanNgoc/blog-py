@@ -1,0 +1,26 @@
+{% extends "pages/base.html" %}
+{% block title %} {{person.name}} {% endblock %}
+{% block content %}
+
+<h3><a href="{% url 'person' person.id %}">{{person.name}}</a></h3>
+{% comment %} <img src="{{person.image.url}}" width="600px"/> {% endcomment %}
+<h6>on {{person.date}}</h6>
+<img src="{{person.image.url}}" width="600px"/>
+{{person.information|safe|linebreaks}}
+{% for comment in person.comments.all %}
+    <h4><strong>{{comment.author}}</strong></h4>
+    <h6><p>{{comment.date}}</p></h6>
+    <p>{{comment.body|linebreaks}}</p>
+{% endfor %}
+
+{% if user.username %}
+    <form action="{% url 'person' person.id %}" method='POST'>
+        {% csrf_token %}
+        <p><label>Binh luan:</label></p>
+        {{form.body}}
+        <br/>
+        <input type="submit" value="Binh luan"/>
+    </form>
+{% endif %}
+
+{% endblock %}
